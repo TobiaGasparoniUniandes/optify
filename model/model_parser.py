@@ -42,6 +42,7 @@ def parse_parameters(parameters):
 
 def parse_variables(variables):
     """
+    ¡¡¡¡¡ ESTE FUE EL QUE SE BORRÓ !!!!!
     REGEX doc: https://regex101.com/r/eKi5Dy/1
     To delete: https://regex101.com/delete/PStWctHwnR3IQINIIg1aHGoc
     """
