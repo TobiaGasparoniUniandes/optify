@@ -23,3 +23,29 @@ z.obj = Objective(expr = z.units_a * profit_a + z.units_b * profit_b, sense=maxi
 SolverFactory('glpk').solve(z)
 
 z.display()
+
+
+'''
+Begin input
+
+
+parameters = """$profit\_a=6$\break
+$profit\_b=5$\break
+$tot\_units\_milk=5$\break
+$tot\_units\_choco=12$\break
+$choco\_a=3$\break
+$milk\_a=1$\break
+$choco\_b=2$\break
+$milk\_b=1$"""
+
+variables = """$units\_a \in \mathbb{N}$\break
+$units\_b \in \mathbb{N}$"""
+
+restrictions = """$units\_a * milk\_a + units\_b * milk\_b \leq tot\_units\_milk$\break
+$units\_a * choco\_a + units\_b * choco\_b \leq tot\_units\_choco$"""
+
+objective_function = "MAX $Z = units\_a * profit\_a + units\_b * profit\_b$"
+
+
+End input
+'''
