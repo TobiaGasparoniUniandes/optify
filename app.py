@@ -1,5 +1,5 @@
 import flask
-from flask import request, jsonify, redirect, url_for
+from flask import request
 from models.simple_model import parse_model
 import json
 
@@ -12,7 +12,9 @@ def home():
     # print(request.is_json)
     dt = request.get_json()
     # print(json.dumps(dt, indent=4))
-    return parse_model(dt['parameters'],
+    return parse_model(dt['sets'],
+                       dt['indexes'],
+                       dt['parameters'],
                        dt['variables'],
                        dt['constraints'],
                        dt['objective_functions'])

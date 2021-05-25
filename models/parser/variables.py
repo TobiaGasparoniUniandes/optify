@@ -16,6 +16,16 @@ def parse_variables_explicit(variables):
     return regex.findall(variables.replace(" ", ""))
 
 
+def parse_variables_implicit(variables):
+    """
+    https://regex101.com/r/9nTdqi/3
+    '''WARNING! ONLY USE THIS LINK IF YOU WANT TO DELETE THIS DOC''':
+       https://regex101.com/delete/9bYMfFPlV6hzAPb9QIJIuJJP
+    """
+    regex = re.compile(r"\$(.+)\{(.+)\}\\in\\mathbb\{(N)\}\$")
+    return regex.findall(variables.replace(" ", ""))
+
+
 def parse_variables_results_explicit(result_variables):
     """
     When result is captured:

@@ -13,10 +13,7 @@ def parse_sets_explicit(sets):
 
     regex = re.compile(r"\$(\w+(?:\\_\w+)*)=\\\{((?:\w+(?:\\_\w+)*,?)+)\\\}\$")
     matches = regex.findall(sets.replace(" ", ""))
-    dictionaries = []
+    dictionaries = {}
     for match in matches:
-        dictionaries.append({
-            NAME: match[0],
-            ELEMENTS: [ele for ele in match[1].split(',')]
-        })
+        dictionaries[match[0]] = {ele for ele in match[1].split(',')}
     return dictionaries

@@ -13,7 +13,57 @@ def parse_objective_functions_explicit(objective_function):
     # (MIN|MAX)\$(\w+(?:\\_\w+)*)=(\w+(?:\\_\w+)*(?:[*+]\w+(?:\\_\w+)*)*)
     regex = re.compile(r"{}{}({})=({}({}{}{})*)".format(
         MIN_MAX, DOLLAR, VARIABLE, VARIABLE, NO_MATTER_GROUP, OPERANDS, VARIABLE))
-    return regex.findall(objective_function.replace(" ", ""))
+    return regex.findall(objective_function.replace(" ", ""))[0]
+
+
+def parse_objective_functions_implicit(objective_function):
+    """
+    REGEX doc: https://regex101.com/r/30F2E0/1
+    '''WARNING! ONLY USE THIS LINK IF YOU WANT TO DELETE THIS DOC''':
+       https://regex101.com/delete/WIZG2EBX1dEaPGsVSuXEUKkB
+    """
+    regex = re.compile(r"(MIN|MAX)(.+)\$=(.+)\$")
+    match = regex.findall(objective_function.replace(" ", ""))[0]
+
+    orientation = match[0]
+
+    model_var = match[1]
+
+    operation = match[2]
+    sums = generate_sum(operation)
+    operation = operation.replace(parse_sums(operation), "")
+
+    response = {
+        "model_var": model_var,
+        "orientation": orientation,
+        "sums": sums,
+        "operation": operation
+    }
+
+    return response
+
+
+def generate_sum(segment):
+    if "\\sum_{" not in segment:
+        return []
+    sums = parse_sums(segment)
+    sums = sums.split("\\sum_{")
+    for i in range(len(sums)):
+        sums[i] = sums[i].replace("}", "")
+    return sums[1:]
+
+
+def parse_sums(sums):
+    """
+    REGEX doc: https://regex101.com/r/htLfAo/2
+    '''WARNING! ONLY USE THIS LINK IF YOU WANT TO DELETE THIS DOC''':
+        https://regex101.com/delete/iJKk5TlLNHEoiFft3Iw1nbHa
+    """
+    if "\\sum_{" not in sums:
+        return ""
+    regex = re.compile(r"(?:\\sum\_{\w})+")
+    matches = regex.findall(sums)[0]
+    return matches
 
 
 def parse_objective_results_explicit(result_objectives):
